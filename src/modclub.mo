@@ -55,7 +55,7 @@ module {
     description: Text;
   };
 
-  public type ModClubActorType = actor {     
+  public type ModclubActorType = actor {     
     registerProvider: (Text, Text, ?Image) -> async Text;
     deregisterProvider: () -> async Text;
     addRules: ([Text], ?Principal) -> async ();
@@ -72,12 +72,12 @@ module {
   };
 
   public let MODCLUB_CANISTER_ID_DEV = "olc6u-lqaaa-aaaah-qcooq-cai";
-  public let ModClub_DEV_ACTOR = actor "olc6u-lqaaa-aaaah-qcooq-cai" : ModClubActorType;
+  public let MODCLUB_DEV_ACTOR = actor "olc6u-lqaaa-aaaah-qcooq-cai" : ModclubActorType;
 
   public let MODCLUB_CANISTER_ID_PROD = "la3yy-gaaaa-aaaah-qaiuq-cai";
-  public let  ModClub_PROD_ACTOR =  actor "la3yy-gaaaa-aaaah-qaiuq-cai" : ModClubActorType;
+  public let  MODCLUB_PROD_ACTOR =  actor "la3yy-gaaaa-aaaah-qaiuq-cai" : ModclubActorType;
 
-  public func getModClubId(environment: Text) : Text {
+  public func getModclubId(environment: Text) : Text {
     if(environment == "prod") {
       return MODCLUB_CANISTER_ID_PROD;
     } else {
@@ -85,11 +85,11 @@ module {
     };
   };
 
-  public func getModClubActor(environment: Text) : ModClubActorType {
+  public func getModclubActor(environment: Text) : ModclubActorType {
     if(environment == "prod") {
-      return ModClub_PROD_ACTOR;
+      return MODCLUB_PROD_ACTOR;
     } else {
-      return ModClub_DEV_ACTOR;
+      return MODCLUB_DEV_ACTOR;
     };
   };
 };

@@ -59,7 +59,7 @@ module {
     registerProvider: (Text, Text, ?Image) -> async Text;
     deregisterProvider: () -> async Text;
     addRules: ([Text], ?Principal) -> async ();
-    removeRules: ([Text]) -> async ();
+    removeRules: ([Text], ?Principal) -> async ();
     getProviderRegisteredRules: () -> async [Rule];
     updateSettings: (ProviderSettings) -> async ();
     submitText: (Text, Text, ?Text) -> async Text;

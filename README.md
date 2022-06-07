@@ -94,7 +94,7 @@ Params:
 - *title* (optional) - Text - An optional title for this content
 
 ```js
-await Modclub.getModclubActor("staging").submitText("my_content_id", "Text content to be reviewed", ?"Title of content");
+await Modclub.getModclubActor("staging").submitHtmlContent("my_content_id_123", "<p>Text content to be reviewed</p><img src='/image.png'/>", ?"Title of content");
 ```
 
 **submitImage**

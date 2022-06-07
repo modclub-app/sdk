@@ -8,7 +8,7 @@ let
     [
       { name = "modsdk"
       , repo = "https://github.com/modclub-app/sdk"
-      , version = "sdk-setup"
+      , version = "0.1.0"
       , dependencies = ["base"]
       },
   ] : List Package

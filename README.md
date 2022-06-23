@@ -147,7 +147,7 @@ MODCLUB's proof of humanity works To setup proof of humanity you will need to fi
 ***subscribePohCallback***
 This is the callback that MODCLUB will call after a user has completed their POH. Your application should handle the result of this method and perform 
 
-```
+```js
  subscribePohCallback: (SubscribePohMessage) -> async ();
  ```
 
@@ -157,13 +157,14 @@ This method you call in order to check if a user has verified their humanity. If
 Parms:
 - uniqueUserId - Text - This is a unique user id that your application is aware of. This could be the principal of the user from your app or a unique string. When a user completes their POH, MODCLUB will call you callback with the users POH result along with this unique identifier.
 
-```
+```js
 verifyHumanity: (Text) -> async PohVerificationResponsePlus;
 ```
 
 #### Using POH
 
-```    public shared({caller}) func exampleToInitiatePOH(): async Text {
+```js
+public shared({caller}) func exampleToInitiatePOH(): async Text {
         // userId to check if they are a human or not
         let userId = "2vxsx-fae";
         // call to check humanity

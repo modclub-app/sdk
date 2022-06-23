@@ -1,5 +1,6 @@
 import Debug "mo:base/Debug";
 import Error "mo:base/Error";
+import Option "mo:base/Option";
 import Principal "mo:base/Principal";
 import Modclub "mo:modsdk/modclub";
 import File "./files";

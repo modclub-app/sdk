@@ -28,14 +28,31 @@ module {
 
   public type SubscribeMessage = { callback: shared ContentResult -> (); };
 
-  public type PohVerificationResponse = {
-    requestId: Text;
-    providerUserId: Principal;
-    status : PohChallengeStatus;
+  public type PohVerificationStatus = {
+    #startPoh;
+    #notSubmitted;
+    #pending;
+    #verified;
+    #rejected;
+    #expired;
+  };
+
+  public type PohVerificationResponsePlus = {
+    providerUserId: Text;
+    status: PohVerificationStatus;
     // status at each challenge level
     challenges: [ChallengeResponse];
     providerId: Principal;
-    requestedOn: Int;
+    token: ?Text;
+    rejectionReasons: [Text];
+    requestedAt: ?Int;
+    submittedAt: ?Int;
+    completedAt: ?Int;
+    isFirstAssociation: Bool;
+  };
+
+  public type SubscribePohMessage = {
+    callback: shared (PohVerificationResponsePlus) -> ();
   };
 
   public type ChallengeResponse = {
@@ -55,7 +72,7 @@ module {
     description: Text;
   };
 
-  public type ModclubActorType = actor {     
+  public type ModclubActorType = actor {
     registerProvider: (Text, Text, ?Image) -> async Text;
     deregisterProvider: () -> async Text;
     addRules: ([Text], ?Principal) -> async ();
@@ -67,8 +84,8 @@ module {
     submitHtmlContent: (Text, Text, ?Text) -> async Text;
     subscribe: (SubscribeMessage) -> async ();
     // Proof of Humanity APIs
-    pohVerificationRequest: (Principal) -> async PohVerificationResponse;
-    pohGenerateUniqueToken: (Principal) -> async PohUniqueToken;
+    verifyHumanity: (Text) -> async PohVerificationResponsePlus;
+    subscribePohCallback: (SubscribePohMessage) -> async ();
   };
 
   public let MODCLUB_CANISTER_ID_DEV = "olc6u-lqaaa-aaaah-qcooq-cai";

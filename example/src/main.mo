@@ -50,17 +50,27 @@ actor {
     };
 
 
-    public shared({caller}) func exampleToInitiatePOH(): async ({#notAttempted; #pending; #rejected; #expired; #verified;#notSubmitted;}, ?Text) {
+    public shared({caller}) func exampleToInitiatePOH(): async Text {
         // userId to check if it's a human or not
-        let userId = Principal.fromText("2vxsx-fae");
+        let userId = "2vxsx-fae";
         // call to check humanity
-        let response =  await Modclub.getModclubActor(environment).pohVerificationRequest(userId);
+        let response =  await Modclub.getModclubActor(environment).verifyHumanity(userId);
 
         // If it's not a verified account then generate token to be used in iframe
-        if(response.status != #verified) {
-            return (response.status, ?(await Modclub.getModclubActor(environment).pohGenerateUniqueToken(userId)).token);
+        if(response.status == #verified and response.isFirstAssociation) {
+            return "User is verified";
         };
-        return (response.status, null);
+
+        if((response.status == #startPoh or response.status == #notSubmitted) and response.isFirstAssociation) {
+            return "User hasn't done POH or hasn't submitted it. Use this token to start POH: " # Option.get(response.token, "");
+        };
+        if(response.status == #verified) {
+            return "User is verified";
+        };
+        if(response.status == #expired) {
+            return "User's POH is expired";
+        };
+        return "User's POH is pending for review";
     };
    
 };

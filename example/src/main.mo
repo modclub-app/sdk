@@ -52,14 +52,21 @@ actor {
 
 
     public shared({caller}) func exampleToInitiatePOH(): async Text {
-        // userId to check if it's a human or not
+        // userId to check if they are a human or not
         let userId = "2vxsx-fae";
         // call to check humanity
         let response =  await Modclub.getModclubActor(environment).verifyHumanity(userId);
 
-        // If it's not a verified account then generate token to be used in iframe
+        // The user is verified and this is the first time they have associated their account on your application to their modclub POH.
         if(response.status == #verified and response.isFirstAssociation) {
-            return "User is verified";
+           // In most cases you will only want to accept a POH response that has isFirstAssociation = true so that a user can't reuse their POH 
+           // with multiple accounts on your platform. For example an NFT allowlist will want the first association of an account to be accepted.
+            return "User is verified and first association from your app to modclub";
+        };
+        
+       // The user has been verified but is reusing their POH 
+       if(response.status == #verified and not response.isFirstAssociation) {
+            return "User is verified but is reusing their modclub POH for another account on your platofrm";
         };
 
         if((response.status == #startPoh or response.status == #notSubmitted) and response.isFirstAssociation) {
@@ -68,6 +75,9 @@ actor {
         if(response.status == #verified) {
             return "User is verified";
         };
+        
+        // The POH has expired in accordance with your configuration. For instance you may only accept POH that was submitted in the last 6 months
+        // If the user submitted their POH 7 months ago, then you would receive a status of #expired
         if(response.status == #expired) {
             return "User's POH is expired";
         };

@@ -129,3 +129,71 @@ Params:
 ```js
   await Modclub.getModclubActor("staging").updateSettings({minVotes = 2; minStaked = 100});
 ```
+
+### Proof of Humanity
+
+MODCLUB's POH works as follows, there are different POH challenges that dApps can choose from. For instance an NFT platform might use an audio challenge ( you recite a unique phrase ). They may also use a drawing challenge ( draw a unique set of shapes on a piece of paper ) that would be a video challenge but won't require you to show your face or anything personally identifiable. You can stack on a series of challenges if you would like which further adds to proof that the user is human but that again that is up to the dApp.
+
+#### Current POH Challenges
+- *challenge-profile-pic* - This challenge requires the user to submit a picture of the face using their camera or by uploading one
+- *challenge-user-video* - This challenge requires the user to record using their camera a set of 6 random words. 
+- *chalenge-user-audio* - This challenge requires the user to record using their microphone a set of 6 random words. 
+
+To get started with Proof of Humanity you must first register your callback method to retrieve the result.
+
+
+MODCLUB's proof of humanity works To setup proof of humanity you will need to first register
+
+***subscribePohCallback***
+This is the callback that MODCLUB will call after a user has completed their POH. Your application should handle the result of this method and perform 
+
+```
+ subscribePohCallback: (SubscribePohMessage) -> async ();
+ ```
+
+***verifyHumanity***
+This method you call in order to check if a user has verified their humanity. If they haven't you will receive a token that will be used to redirect the user back to modclub to perform POH.
+
+Parms:
+- uniqueUserId - Text - This is a unique user id that your application is aware of. This could be the principal of the user from your app or a unique string. When a user completes their POH, MODCLUB will call you callback with the users POH result along with this unique identifier.
+
+```
+verifyHumanity: (Text) -> async PohVerificationResponsePlus;
+```
+
+#### Using POH
+
+```    public shared({caller}) func exampleToInitiatePOH(): async Text {
+        // userId to check if they are a human or not
+        let userId = "2vxsx-fae";
+        // call to check humanity
+        let response =  await Modclub.getModclubActor(environment).verifyHumanity(userId);
+
+        // The user is verified and this is the first time they have associated their account on your application to their modclub POH.
+        if(response.status == #verified and response.isFirstAssociation) {
+           // In most cases you will only want to accept a POH response that has isFirstAssociation = true so that a user can't reuse their POH 
+           // with multiple accounts on your platform. For example an NFT allowlist will want the first association of an account to be accepted.
+            return "User is verified and first association from your app to modclub";
+        };
+        
+       // The user has been verified but is reusing their POH 
+       if(response.status == #verified and not response.isFirstAssociation) {
+            return "User is verified but is reusing their modclub POH for another account on your platofrm";
+        };
+
+        if((response.status == #startPoh or response.status == #notSubmitted) and response.isFirstAssociation) {
+            return "User hasn't done POH or hasn't submitted it. Use this token to start POH: " # Option.get(response.token, "");
+        };
+        if(response.status == #verified) {
+            return "User is verified";
+        };
+        
+        // The POH has expired in accordance with your configuration. For instance you may only accept POH that was submitted in the last 6 months
+        // If the user submitted their POH 7 months ago, then you would receive a status of #expired
+        if(response.status == #expired) {
+            return "User's POH is expired";
+        };
+        return "User's POH is pending for review";
+    };
+```
+   

@@ -113,10 +113,13 @@ You can add admins to manage your application via our Admin dashboard. This is m
 
 **addProviderAdmin**
 Params:
-- *userName* - Text - The username for the admin
 - *userPrincipal* - Principal - The principal ID for the admin
+- *userName* - Text - The username for the admin
 - *providerId* - ?Principal - The principal ID of your app. (Optional if your app is making this call directly) 
 
+```js
+  await Modclub.getModclubActor("staging").addProviderAdmin(Principal.fromText("YOUR_STOIC_PRINCIPAL_ID"), "moderator", null);
+```
 ### Managing Moderator settings
 You can adjust the number of votes required for content to be approved / rejected and the number of staked tokens to vote.
 

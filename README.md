@@ -35,6 +35,11 @@ To integrate with MODCLUB, you need to perform the below steps:
         ```
 
 To register:
+You can use the following command to get the `companyLogoNat8Format` from your Logo:
+
+`for byte in ${(j:,:)$(od -An -v -tuC <path to your logo>)[@]}; echo "$byte"`
+
+Substitute `<path to your logo>` with the correct path to your Logo. Make sure you set the correct mime type for the logo as well, e.g. `imageType = "image/svg+xml"` for a SVG logo.
 
 ```js
 // If you are using Vessel

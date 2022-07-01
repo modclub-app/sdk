@@ -11,7 +11,7 @@ To integrate with MODCLUB, you need to perform the below steps:
 
     -   follow the "getting started" instructions [here](https://github.com/dfinity/vessel#getting-started) to install and setup vessel on your machine
 
-    -   modify your `package-set.dhall` and include the `modsdk` in your `additions`:
+    -   modify your `package-set.dhall` and include the `modsdk` in your `additions`. make sure you use the latest version from the releases on github:
         ```
         let upstream = https://github.com/dfinity/vessel-package-set/releases/download/mo-0.6.21-20220215/package-set.dhall sha256:b46f30e811fe5085741be01e126629c2a55d4c3d6ebf49408fb3b4a98e37589b
         let Package =
@@ -19,7 +19,7 @@ To integrate with MODCLUB, you need to perform the below steps:
         let additions = [
             { name = "modsdk"
             , repo = "https://github.com/modclub-app/sdk"
-            , version = "0.1.0"
+            , version = "0.1.1"
             , dependencies = ["base"] : List Text
             }
         ] : List Package

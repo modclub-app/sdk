@@ -34,33 +34,34 @@ To integrate with MODCLUB, you need to perform the below steps:
         }
         ```
 
-To register:
-You can use the following command to get the `companyLogoNat8Format` from your Logo:
+3.  Register with Modclub. You can use the following command to get the `companyLogoNat8Format` from your Logo:
 
-`for byte in ${(j:,:)$(od -An -v -tuC <path to your logo>)[@]}; echo "$byte"`
+    `for byte in ${(j:,:)$(od -An -v -tuC <path to your logo>)[@]}; echo "$byte"`
 
-Substitute `<path to your logo>` with the correct path to your Logo. Make sure you set the correct mime type for the logo as well, e.g. `imageType = "image/svg+xml"` for a SVG logo.
+    Substitute `<path to your logo>` with the correct path to your Logo. Make sure you set the correct mime type for the logo as well, e.g. `imageType = "image/svg+xml"` for a SVG logo.
 
-```js
-// If you are using Vessel
-import Modclub "mo:modsdk/modclub";
+    ```js
+    // If you are using Vessel
+    import Modclub "mo:modsdk/modclub";
 
-// If you are using SDK after copy pasting the modclub.mo file.
-import Modclub "./modclub";
+    // If you are using SDK after copy pasting the modclub.mo file.
+    import Modclub "./modclub";
 
-actor {
+    actor {
 
-    public func setup() {
-        let companyLogoInNat8Format : [Nat8] = [255, 216, 255, 224, 0];
-        let companyLogo : Modclub.Image = {
-            data = companyLogoInNat8Format;
-            imageType = "image/jpeg";
-        };
-        // Register with Modclub
-        let _ = await Modclub.getModclubActor("staging").registerProvider("AppName", "AppDescription", ?companyLogo);
+        public func setup() {
+            let companyLogoInNat8Format : [Nat8] = [255, 216, 255, 224, 0];
+            let companyLogo : Modclub.Image = {
+                data = companyLogoInNat8Format;
+                imageType = "image/jpeg";
+            };
+            // Register with Modclub
+            let _ = await Modclub.getModclubActor("staging").registerProvider("AppName", "AppDescription", ?companyLogo);
+        }
     }
-}
-```
+    ```
+
+    > :warning: **You only need to register once**: After the registration is done you can remove the `setup` method from your canister!
 
 ### Managing Content Rules
 

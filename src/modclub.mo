@@ -78,6 +78,8 @@ module {
     addRules: ([Text], ?Principal) -> async ();
     removeRules: ([Text], ?Principal) -> async ();
     getProviderRegisteredRules: () -> async [Rule];
+    addProviderAdmin:(Principal, Text, ?Principal) -> async ();
+    removeProviderAdmin: (Principal, Principal) -> async ();
     updateSettings: (ProviderSettings) -> async ();
     submitText: (Text, Text, ?Text) -> async Text;
     submitImage: (Text, [Nat8], Text, ?Text) -> async Text;

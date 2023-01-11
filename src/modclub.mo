@@ -8,12 +8,20 @@ module {
   public type ContentStatus = {
     #approved;
     #rejected;
-    #reviewRequired;
+    #new;
+  };
+
+  public type ViolatedRules = {
+    id : Text;
+    rejectionCount: Nat;
   };
 
   public type ContentResult = {
-    sourceId: Text;
-    status: ContentStatus;
+    sourceId : Text;
+    approvedCount: Nat;
+    rejectedCount: Nat;
+    status : ContentStatus;
+    violatedRules: [ViolatedRules];
   };
 
   public type ProviderSettings = {
@@ -76,8 +84,8 @@ module {
     registerProvider: (Text, Text, ?Image) -> async Text;
     deregisterProvider: () -> async Text;
     addRules: ([Text], ?Principal) -> async ();
+    getProviderRules: () -> async [Rule];
     removeRules: ([Text], ?Principal) -> async ();
-    getProviderRegisteredRules: () -> async [Rule];
     addProviderAdmin:(Principal, Text, ?Principal) -> async ();
     removeProviderAdmin: (Principal, Principal) -> async ();
     updateSettings: (ProviderSettings) -> async ();

@@ -79,10 +79,7 @@ Params:
 -   _ruleIds_ - [Text] - An array of Rule Ids that you would like to remove
 -   _providerId_ - ?Principal - Optional Canister/Provider Id for which rules need to be removed
 
-**getRules** - Returns the list of rules you have provided
-Params:
-
--   _providerId_ - Principal - Optional Canister/Provider Id for which rules need to be retrieved
+**getProviderRules** - Returns the list of rules caller has set up
 
 ### Registering Callback
 

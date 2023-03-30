@@ -5,7 +5,7 @@ import Principal "mo:base/Principal";
 import Modclub "mo:modsdk/modclub";
 import File "./files";
 
-actor {
+actor class ModclubProvider() = this {
 
     let imageFile = File.File();
 
@@ -46,7 +46,7 @@ actor {
             await Modclub.getModclubActor(environment).addRules(rules, null);
             ModclubRulesAdded := true;
         };
-        await Modclub.getModclubActor(environment).updateSettings({minVotes = 2; minStaked = 15});
+        await Modclub.getModclubActor(environment).updateSettings(Principal.fromActor(this), {minVotes = 2; minStaked = 15});
         await Modclub.getModclubActor(environment).subscribe({callback = ModclubCallback;});
     };
 

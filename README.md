@@ -170,11 +170,11 @@ You can adjust the number of votes required for content to be approved / rejecte
 Params:
 
 -   _settings_ - ProviderSettings
--   _minVotes_ - Nat - The minimum number of votes required in order for the decision to be finalized
+-   _requiredVotes_ - Nat - The minimum number of votes required in order for the decision to be finalized
 -   _minStaked_ - Nat - The minimum number of MODCLUB points needed to be staked in order for a moderator to vote on your content.
 
 ```js
-  await Modclub.getModclubActor("staging").updateSettings({minVotes = 2; minStaked = 100});
+  await Modclub.getModclubActor("staging").updateSettings({requiredVotes = 2; minStaked = 100});
 ```
 
 ### Proof of Humanity

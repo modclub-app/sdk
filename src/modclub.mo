@@ -98,11 +98,11 @@ module {
     subscribePohCallback: (SubscribePohMessage) -> async ();
   };
 
-  public let MODCLUB_CANISTER_ID_DEV = "olc6u-lqaaa-aaaah-qcooq-cai";
-  public let MODCLUB_DEV_ACTOR = actor "olc6u-lqaaa-aaaah-qcooq-cai" : ModclubActorType;
+  public let MODCLUB_CANISTER_ID_DEV = "hvyqe-cyaaa-aaaah-qdbiq-cai";
+  public let MODCLUB_DEV_ACTOR = actor "hvyqe-cyaaa-aaaah-qdbiq-cai" : ModclubActorType;
 
-  public let MODCLUB_CANISTER_ID_PROD = "la3yy-gaaaa-aaaah-qaiuq-cai";
-  public let  MODCLUB_PROD_ACTOR =  actor "la3yy-gaaaa-aaaah-qaiuq-cai" : ModclubActorType;
+  public let MODCLUB_CANISTER_ID_PROD = "gwuzc-waaaa-aaaah-qdboa-cai";
+  public let  MODCLUB_PROD_ACTOR =  actor "gwuzc-waaaa-aaaah-qdboa-cai" : ModclubActorType;
 
   public func getModclubId(environment: Text) : Text {
     if(environment == "prod") {

@@ -1,6 +1,6 @@
 {
   "canisters": {
-    "provider_example": {
+    "provider_app": {
       "main": "src/main.mo",
       "type": "motoko"
     }

@@ -2,60 +2,74 @@ import Debug "mo:base/Debug";
 import Error "mo:base/Error";
 import Option "mo:base/Option";
 import Principal "mo:base/Principal";
-import Modclub "mo:modsdk/modclub";
+import Modclub "../../src/modclub";
+// import Modclub "mo:modsdk/modclub";
 import File "./files";
 
 actor class ModclubProvider() = this {
+    stable var ModclubRulesAdded = false;
 
+    let env = "qa";
     let imageFile = File.File();
+    let modclub = Modclub.getModclubActor(env);
 
-    public shared({caller}) func howToSubmitContentToModclub() : async () {
+    public shared({caller}) func submitContentToModclub() : async () {
         // Assumption: SetUpModclub method has already been called
         // Submit content to be reviewed by moderators
-        let test1 = await Modclub.getModclubActor(environment).submitText("id_1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ?"Title for Text Content");
-        let test2 = await Modclub.getModclubActor(environment).submitImage("id_4", imageFile.SoccerBall, "image/jpeg", ?"Title for Image Content" );
-        let test3 = await Modclub.getModclubActor(environment).submitHtmlContent("id_5", "<p>Sample Html Content</p>", ?"Title for Html Content" );
+        let test1 = await modclub.submitText("id_1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ?"Title for Text Content", ?#normal);
+        let test2 = await modclub.submitImage("id_4", imageFile.SoccerBall, "image/jpeg", ?"Title for Image Content", ?#normal );
+        let test3 = await modclub.submitHtmlContent("id_5", "<p>Sample Html Content</p>", ?"Title for Html Content", ?#normal );
     };
 
     public shared ({caller}) func ModclubCallback(result: Modclub.ContentResult) {
         Debug.print(debug_show(result));
     };
 
-    stable var environment = "local";
-    stable var ModclubRulesAdded = false;
-    public shared({caller}) func setUpModclub(env: Text) {
-        // Restrict the caller to admins or trusted identites only.
-        if(env != "local" and env != "staging" and env != "prod") {
-            throw Error.reject("Please Provide correct environment value");
-        };
-        environment := env;
-        // On local don't set up Modclub
-        if(environment == "local") {
-            return;
-        };
+    public shared({caller}) func topUpProviderAccount(amount : Modclub.Tokens) : async Modclub.Result<Modclub.TxIndex, Modclub.TransferError> {
+        await Modclub.topUpReserveBalance(env, amount);
+    };
+
+    public shared({caller}) func providerSaBalance() : async Modclub.Tokens {
+        await Modclub.providerSaBalance(env);
+    };
+
+    public shared({caller}) func initModclubProvider() : async Text {
         let companyLogo : Modclub.Image = {
             data = imageFile.SoccerBall;
             imageType = "image/jpeg";
         };
-        let _ = await Modclub.getModclubActor(environment).registerProvider("AppName", "AppDescription", ?companyLogo);
-        if(not ModclubRulesAdded) {
-            let rules = ["This post threatens violence against an individual or a group of people",
-                "This post glorifies violence",
-                "This post threatens or promotes terrorism or violent extremism",
-            ];
-            await Modclub.getModclubActor(environment).addRules(rules, null);
-            ModclubRulesAdded := true;
+
+        try {
+            let init = await Modclub.initProvider(env, "TestProviderApp", "AppDescription", ?companyLogo);
+            switch(init) {
+                case(#ok(_)) {
+                    if(not ModclubRulesAdded) {
+                        let rules = [
+                            "This post threatens violence against an individual or a group of people",
+                            "This post glorifies violence",
+                            "This post threatens or promotes terrorism or violent extremism",
+                        ];
+                        await modclub.addRules(rules, null);
+                        ModclubRulesAdded := true;
+                    };
+
+                    await modclub.subscribe({callback = ModclubCallback;});
+                    let _ = await Modclub.topUpReserveBalance(env, 10_000_000);
+                    return "Initialization successfull.";
+                };
+                case(#err(message)) { return "Initialization failed :: " # message; };
+            };
+        } catch (e) {
+            return Error.message(e);
         };
-        await Modclub.getModclubActor(environment).updateSettings(Principal.fromActor(this), {minVotes = 2; minStaked = 15});
-        await Modclub.getModclubActor(environment).subscribe({callback = ModclubCallback;});
+
     };
 
-
-    public shared({caller}) func exampleToInitiatePOH(): async Text {
+    public shared({caller}) func exampleToGetPOHStatus(): async Text {
         // userId to check if they are a human or not
         let userId = "2vxsx-fae";
         // call to check humanity
-        let response =  await Modclub.getModclubActor(environment).verifyHumanity(userId);
+        let response =  await modclub.verifyHumanity(userId);
 
         // The user is verified and this is the first time they have associated their account on your application to their modclub POH.
         if(response.status == #verified and response.isFirstAssociation) {

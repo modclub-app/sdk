@@ -2,6 +2,9 @@
 
 MODCLUB is a moderation platform for online apps deployed on the IC. Moderation as a service (MaaS) is the concept of outsourcing controversial decisions or risky content in order to protect users and maintain trust within communities.
 
+# MODCLUB Integration Diagram
+<img width="652" alt="Screenshot 2023-10-23 at 6 04 14 PM" src="https://github.com/modclub-app/sdk/assets/106404058/e7a2f652-2657-4180-9f8f-bf5107ae07f4">
+
 # Usage
 
 To integrate with MODCLUB, you need to perform the below steps:

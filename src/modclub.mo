@@ -191,7 +191,6 @@ module {
       return #ok(true);
     };
     if (Text.contains("not in allow list", #text resp)) {
-      throw Error.reject("Unable to register provider. Provider is not in whitelist.");
       return #err("Unable to register provider. Provider is not in allow list.");
     };
     return #err("Unable to register provider." # resp);

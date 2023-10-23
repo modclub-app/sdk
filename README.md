@@ -51,6 +51,7 @@ To integrate with MODCLUB, you need to perform the below steps:
     import Modclub "./modclub";
 
     actor {
+        private env : Text = "prod"; // "qa" and "dev" are also available options, for testing purposes
 
         public func setup() {
             let companyLogoInNat8Format : [Nat8] = [255, 216, 255, 224, 0];
@@ -59,7 +60,7 @@ To integrate with MODCLUB, you need to perform the below steps:
                 imageType = "image/jpeg";
             };
             // Register with Modclub
-            let _ = await Modclub.getModclubActor("staging").registerProvider("AppName", "AppDescription", ?companyLogo);
+            let _ = await Modclub.initProvider(env, "TestProviderApp", "AppDescription", ?companyLogo);
         }
     }
     ```
@@ -103,7 +104,7 @@ Example of registering your callback:
 
 ```js
   public func subscribe() : async() {
-    await Modclub.getModclubActor("staging").subscribe({callback = voteResult;});
+    await Modclub.getModclubActor(env).subscribe({callback = voteResult;});
 
   };
 
@@ -114,7 +115,15 @@ Example of registering your callback:
 
 ### Submitting Content
 
-Once your app is registered you can submit content to MODCLUB to be reviewed. Use the following methods to submit content:
+Once your app is registered you can submit content to MODCLUB to be reviewed, but first of all 
+you have to ensure that your app-canister owns some MOD tokens and use following method to topUp 
+your ProviderAccount on modclubPlatform:
+```js
+await Modclub.topUpReserveBalance(env, amount);
+```
+This is required because each task you submit has a cost and without any MOD in your account any task submission will fail. 
+
+To submit content please use the following methods:
 
 **submitText**
 Params:
@@ -122,6 +131,7 @@ Params:
 -   _sourceId_ - Text - The unique ID for this content on your platform.
 -   _text_ - Text - The text content to be reviewed
 -   _title_ (optional) - Text - An optional title for this content
+-   _level_ (optional) - Variant(#simple, #normal, #hard, #xhard) - An optional complexity level for this content (defaults to simple). This determines how many moderators review the task, higher complexity results in more moderators and higher cost. 
 
 ```js
 await Modclub.getModclubActor("staging").submitText("my_content_id", "Text content to be reviewed", ?"Title of content");
@@ -133,6 +143,7 @@ Params:
 -   _sourceId_ - Text - The unique ID for this content on your platform.
 -   _htmlContent_ - Text - The html content to be reviewed
 -   _title_ (optional) - Text - An optional title for this content
+-   _level_ (optional) - Variant(#simple, #normal, #hard, #xhard) - An optional complexity level for this content
 
 ```js
 await Modclub.getModclubActor("staging").submitHtmlContent("my_content_id_123", "<p>Text content to be reviewed</p><img src='/image.png'/>", ?"Title of content");
@@ -145,6 +156,7 @@ Params:
 -   _image_ - [Nat8] - A Nat8 array containing the image data
 -   _imageType_ - Text - The image mime type i.e image/jpeg, image/png etc..
 -   _title_ (optional) - Text - An optional title for this content
+-   _level_ (optional) - Variant(#simple, #normal, #hard, #xhard) - An optional complexity level for this content
 
 ```js
 await Modclub.getModclubActor("staging").submitImage("my_content_id", imageData, "image/png", ?"Title of Image Content");
@@ -164,20 +176,6 @@ Params:
 
 ```js
   await Modclub.getModclubActor("staging").addProviderAdmin(Principal.fromText("YOUR_STOIC_PRINCIPAL_ID"), "moderator", null);
-```
-### Managing Moderator settings
-
-You can adjust the number of votes required for content to be approved / rejected and the number of staked tokens to vote.
-
-**updateSettings**
-Params:
-
--   _settings_ - ProviderSettings
--   _requiredVotes_ - Nat - The minimum number of votes required in order for the decision to be finalized
--   _minStaked_ - Nat - The minimum number of MODCLUB points needed to be staked in order for a moderator to vote on your content.
-
-```js
-  await Modclub.getModclubActor("staging").updateSettings({requiredVotes = 2; minStaked = 100});
 ```
 
 ### Proof of Humanity

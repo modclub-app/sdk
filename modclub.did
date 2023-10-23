@@ -118,6 +118,7 @@ type SubscribePohMessage =
   callback:
   func (PohVerificationResponsePlus) -> () oneway;
  };
+type Tokens = nat;
 type ModClub = 
  service {
    registerProvider: (text, text, opt Image) -> (text);
@@ -133,6 +134,8 @@ type ModClub =
    subscribe: (SubscribeMessage) -> ();
    verifyHumanity: (text) -> (PohVerificationResponsePlus);
    subscribePohCallback: (SubscribePohMessage) -> ();
+   providerSaBalance: (text, opt principal) -> (Tokens);
+   getProviderSa: (text, opt principal) -> (blob);
  };
 
 service : (ENV) -> ModClub

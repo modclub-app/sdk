@@ -118,7 +118,7 @@ your ProviderAccount on modclubPlatform:
 ```js
 await Modclub.topUpReserveBalance(env, amount);
 ```
-You need this cause every submitted task review has its own price to payed as royalty to moderators.
+This is required because each task you submit has a cost and without any MOD in your account any task submission will fail. 
 
 To submit content please use the following methods:
 

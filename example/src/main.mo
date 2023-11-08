@@ -16,9 +16,9 @@ actor class ModclubProvider() = this {
     public shared({caller}) func submitContentToModclub() : async () {
         // Assumption: SetUpModclub method has already been called
         // Submit content to be reviewed by moderators
-        let test1 = await modclub.submitText("id_1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ?"Title for Text Content", ?#normal);
-        let test2 = await modclub.submitImage("id_4", imageFile.SoccerBall, "image/jpeg", ?"Title for Image Content", ?#normal );
-        let test3 = await modclub.submitHtmlContent("id_5", "<p>Sample Html Content</p>", ?"Title for Html Content", ?#normal );
+        let test1 = await modclub.submitText("id_1_categorized", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ?"Title for SHOOTER GAME Content", ?#normal, ?"HOWTO_FOR_SHOOTERS");
+        let test2 = await modclub.submitText("id_2_categorized", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ?"Title for STRATEGY GAME Content", ?#normal, ?"HOWTO_FOR_STRATEGIES");
+        let test3 = await modclub.submitText("id_5_categorized", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ?"Title for RPG game review", ?#normal, ?"RPPG_GAMES_REVIEWS");
     };
 
     public shared ({caller}) func ModclubCallback(result: Modclub.ContentResult) {

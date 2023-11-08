@@ -124,9 +124,9 @@ module {
     removeRules: ([Text], ?Principal) -> async ();
     addProviderAdmin:(Principal, Text, ?Principal) -> async ();
     removeProviderAdmin: (Principal, Principal) -> async ();
-    submitText: (Text, Text, ?Text, ?Level) -> async Text;
-    submitImage: (Text, [Nat8], Text, ?Text, ?Level) -> async Text;
-    submitHtmlContent: (Text, Text, ?Text, ?Level) -> async Text;
+    submitText: (Text, Text, ?Text, ?Level, ?Text) -> async Text;
+    submitImage: (Text, [Nat8], Text, ?Text, ?Level, ?Text) -> async Text;
+    submitHtmlContent: (Text, Text, ?Text, ?Level, ?Text) -> async Text;
     subscribe: (SubscribeMessage) -> async ();
     // Provider funds management
     getProviderSa(Text, ?Principal) : async Blob;
@@ -150,11 +150,11 @@ module {
     }) -> async Result<TxIndex, TransferError>;
   };
 
-  public let MODCLUB_CANISTER_ID_QA = "hvyqe-cyaaa-aaaah-qdbiq-cai";
+  public let MODCLUB_CANISTER_ID_QA = "asrmz-lmaaa-aaaaa-qaaeq-cai";
   public let MODCLUB_CANISTER_ID_DEV = "d7isk-4aaaa-aaaah-qdbsa-cai";
   public let MODCLUB_CANISTER_ID_PROD = "gwuzc-waaaa-aaaah-qdboa-cai";
 
-  public let MODCLUB_LEDGER_QA = "vckh6-hqaaa-aaaah-qc7wa-cai";
+  public let MODCLUB_LEDGER_QA = "by6od-j4aaa-aaaaa-qaadq-cai";
   public let MODCLUB_LEDGER_DEV = "vxnwt-gyaaa-aaaah-qc7vq-cai";
   public let MODCLUB_LEDGER_PROD = "xsi2v-cyaaa-aaaaq-aabfq-cai";
 

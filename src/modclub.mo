@@ -124,9 +124,9 @@ module {
     removeRules: ([Text], ?Principal) -> async ();
     addProviderAdmin:(Principal, Text, ?Principal) -> async ();
     removeProviderAdmin: (Principal, Principal) -> async ();
-    submitText: (Text, Text, ?Text, ?Level) -> async Text;
-    submitImage: (Text, [Nat8], Text, ?Text, ?Level) -> async Text;
-    submitHtmlContent: (Text, Text, ?Text, ?Level) -> async Text;
+    submitText: (Text, Text, ?Text, ?Level, ?Text) -> async Text;
+    submitImage: (Text, [Nat8], Text, ?Text, ?Level, ?Text) -> async Text;
+    submitHtmlContent: (Text, Text, ?Text, ?Level, ?Text) -> async Text;
     subscribe: (SubscribeMessage) -> async ();
     // Provider funds management
     getProviderSa(Text, ?Principal) : async Blob;

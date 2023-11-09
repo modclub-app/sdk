@@ -131,7 +131,8 @@ Params:
 -   _sourceId_ - Text - The unique ID for this content on your platform.
 -   _text_ - Text - The text content to be reviewed
 -   _title_ (optional) - Text - An optional title for this content
--   _level_ (optional) - Variant(#simple, #normal, #hard, #xhard) - An optional complexity level for this content (defaults to simple). This determines how many moderators review the task, higher complexity results in more moderators and higher cost. 
+-   _level_ (optional) - Variant(#simple, #normal, #hard, #xhard) - An optional complexity level for this content (defaults to simple). This determines how many moderators review the task, higher complexity results in more moderators and higher cost.
+-   _category_ (optional) - Text - An optional category string that will help modclub moderators filter specific tasks (i.e "Adult", "Gaming", "#MainChannel" )
 
 ```js
 await Modclub.getModclubActor("staging").submitText("my_content_id", "Text content to be reviewed", ?"Title of content");
@@ -144,6 +145,7 @@ Params:
 -   _htmlContent_ - Text - The html content to be reviewed
 -   _title_ (optional) - Text - An optional title for this content
 -   _level_ (optional) - Variant(#simple, #normal, #hard, #xhard) - An optional complexity level for this content
+-   _category_ (optional) - Text - An optional category string that will help modclub moderators filter specific tasks (i.e "Adult", "Gaming", "#MainChannel" )
 
 ```js
 await Modclub.getModclubActor("staging").submitHtmlContent("my_content_id_123", "<p>Text content to be reviewed</p><img src='/image.png'/>", ?"Title of content");
@@ -157,6 +159,7 @@ Params:
 -   _imageType_ - Text - The image mime type i.e image/jpeg, image/png etc..
 -   _title_ (optional) - Text - An optional title for this content
 -   _level_ (optional) - Variant(#simple, #normal, #hard, #xhard) - An optional complexity level for this content
+-   _category_ (optional) - Text - An optional category string that will help modclub moderators filter specific tasks (i.e "Adult", "Gaming", "#MainChannel" )
 
 ```js
 await Modclub.getModclubActor("staging").submitImage("my_content_id", imageData, "image/png", ?"Title of Image Content");

@@ -185,11 +185,17 @@ Params:
 
 MODCLUB's POH works as follows, there are different POH challenges that dApps can choose from. For instance an NFT platform might use an audio challenge ( you recite a unique phrase ). They may also use a drawing challenge ( draw a unique set of shapes on a piece of paper ) that would be a video challenge but won't require you to show your face or anything personally identifiable. You can stack on a series of challenges if you would like which further adds to proof that the user is human but that again that is up to the dApp.
 
+### POH Integration Diagram
+![image](https://github.com/modclub-app/sdk/assets/251495/a2ea9765-6ab0-4c0b-9846-a6b3d640d9fe)
+
+Above is an example of integration with Modclub. You can see an example of this achieved in the code here: https://github.com/flowerpowerdao/poh
+
 #### Current POH Challenges
 
 -   _challenge-profile-pic_ - This challenge requires the user to submit a picture of the face using their camera or by uploading one
 -   _challenge-user-video_ - This challenge requires the user to record using their camera a set of 6 random words.
 -   _chalenge-user-audio_ - This challenge requires the user to record using their microphone a set of 6 random words.
+-   _challenge-unique-poh_ - Similar to the video challenge this requires the user to say 6 random words but this will fail if the users face has been registered before
 
 To get started with Proof of Humanity you must first register your callback method to retrieve the result.
 
